@@ -5,11 +5,12 @@ pipeline {
     
     }
     stages {
-        stage('Compile and Clean') { 
+        stage('Build Docker image') { 
             steps {
                 // Run Maven on a Unix agent.
-              
-                sh "mvn clean compile"
+                
+                sh 'docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:$(git rev-parse HEAD) -f Dockerfile.builder ' 
+                sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp:$(git rev-parse HEAD) bash -c "cd /work; lein  uberjar"  '
             }
         }
         stage('deploy') { 
@@ -18,14 +19,7 @@ pipeline {
                 sh "mvn package"
             }
         }
-        stage('Build Docker image'){
-          
-            steps {
-                echo "Hello Java Express"
-                sh 'ls'
-                sh 'docker build -t  tcdmv/hello:1.0.0-${BUILD_NUMBER} .'
-            }
-        }
+        
         stage('Docker Login'){
             
             steps {
