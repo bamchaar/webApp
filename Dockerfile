@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk-slim
-MAINTAINER Your Name <bamchaar@gmail.com>
+MAINTAINER Abdel<bamchaar@gmail.com>
 
 ADD target/uberjar/example-webapp.jar /example-webapp/app.jar
 
