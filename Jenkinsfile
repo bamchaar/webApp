@@ -23,12 +23,36 @@ pipeline {
                   }
         }                           
         
-        stage('Docker Login'){
+        stage('Make a builder image'){
             
             steps {
-                 withCredentials([string(credentialsId: 'DockerId', variable: 'Dockerpwd')]) {
-                    sh "docker login -u tcdmv -p ${Dockerpwd}"
-                }
+                 echo 'Starting to build the project builder docker image'
+                script{
+                      builderImage = docker build("$DOCKER_REGISTRY/webapp-builder:670857e5187cc6737ddc80c2b1de44bf033f1351","-f ./Dockerfile.builder" .)
+                      builderImage.push()
+                      builderImage.push("${env.GIT_BRANCH}")
+                      builderImage.inside('-v $WORKSPACE: /output -u root'){
+                                 sh """ 
+                                    cd /output
+                                    lein uberjar
+                                 """
+                    }
+                      }
+            }                
+        }
+        stage('Unit tests'){
+            
+            steps {
+                 echo 'running unit tests inside the builder docker image'
+                script{
+      
+                      builderImage.inside('-v $WORKSPACE: /output -u root'){
+                                 sh """ 
+                                    cd /output
+                                    lein test
+                                 """
+                    }
+                      }
             }                
         }
         stage('Docker Push'){
