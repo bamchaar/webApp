@@ -16,7 +16,7 @@ pipeline {
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        docker pull $DOCKER_REGISTRY/webapp-builder:latest
+                                        docker pull $DOCKER_REGISTRY/webapp-builder:670857e5187cc6737ddc80c2b1de44bf033f1351
                                       """
                                                                                                                                        }
                               }
