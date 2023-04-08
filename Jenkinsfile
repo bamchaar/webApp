@@ -35,8 +35,7 @@ pipeline {
                 script{
                       docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:670857e5187cc6737ddc80c2b1de44bf033f1351","-f ./Dockerfile.builder .")
                      
-                                 sh """ 
-                                    cd /output
+                                 sh """
                                     lein uberjar
                                  """
                    
@@ -51,7 +50,7 @@ pipeline {
       
                       builderImage.inside('-v $WORKSPACE: /output -u root'){
                                  sh """ 
-                                    cd /output
+                 
                                     lein test
                                  """
                     }
