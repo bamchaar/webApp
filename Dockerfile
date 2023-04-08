@@ -1,8 +1,8 @@
 FROM openjdk:17-jdk-slim
-MAINTAINER Your Name <bamchaar@gmail.com>
+MAINTAINER Abdel<bamchaar@gmail.com>
 
-ADD target/uberjar/example-webapp.jar /example-webapp/app.jar
+ADD target/uberjar/webapp.jar /webapp/app.jar
 
 EXPOSE 3000
 
-CMD ["java", "-jar", "/example-webapp/app.jar"]
+CMD ["java", "-jar", "/webapp/app.jar"]
