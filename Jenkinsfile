@@ -9,7 +9,7 @@ pipeline {
             steps {
                 // Run Maven on a Unix agent.
                 
-                sh 'docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:$(git rev-parse HEAD) -f Dockerfile .' 
+                sh 'docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:$(git rev-parse HEAD) -f Dockerfile.builder .' 
                 sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp:$(git rev-parse HEAD) bash -c "cd /work; lein  uberjar"  '
             }
         }
