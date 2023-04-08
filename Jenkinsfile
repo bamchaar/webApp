@@ -19,6 +19,7 @@ pipeline {
                                                                                                                      }
                                  }
                     }
+                                                            }
                                                            
         
         stage('Docker Login'){
