@@ -13,10 +13,10 @@ pipeline {
     ACCOUNT_REGISTRY_PREFIX = '903678904895.dkr.ecr.us-east-1.amazonaws.com'
   }
     stages {
-        stage(build image then push it to aws ECR){
+        stage('build image'){
             docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0 -f Dockerfile.builder . build 
         }
-        stage('Check source code and login to registry') { 
+        stage('Check source code and login to registry then push image to aws ECR') { 
             steps {
                         script {
                             
