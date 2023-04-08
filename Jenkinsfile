@@ -11,16 +11,17 @@ pipeline {
         stage('Check source code and login to registry') { 
             steps {
                         script {
-                          withCredentials([string(credentialsId: 'aws-ecr-creds', variable: 'DOCKER_AUTH_CONFIG')]) {
-                            sh """
-                              echo '$DOCKER_AUTH_CONFIG' | base64 -d | docker login -u AWS --password-stdin $DOCKER_REGISTRY
-                              docker pull $DOCKER_REGISTRY/webapp-builder:latest
-                            """
-                                                                                                                     }
-                                 }
-                    }
-                                                            }
-                                                           
+                            
+                                 withCredentials([string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                                                  string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
+                                      sh """
+                                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+                                        docker pull $DOCKER_REGISTRY/webapp-builder:latest
+                                      """
+                                                                                                                                       }
+                              }
+                  }
+        }                           
         
         stage('Docker Login'){
             
