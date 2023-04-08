@@ -1,18 +1,14 @@
 pipeline {
     agent any 
-    tools {
-        maven "mvn-3.9"
-    
-    }
     stages {
-        stage('Build Docker image') { 
+        stage('Check source code and login to registry') { 
             steps {
-                // Run Maven on a Unix agent.
-                
-                sh 'docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:$(git rev-parse HEAD) -f Dockerfile.builder .' 
-                sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp:$(git rev-parse HEAD) bash -c "cd /work; lein  uberjar"  '
-            }
-        }
+                sshagent(['jenkinsKey']) {
+                    sh 'docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:$(git rev-parse HEAD) -f Dockerfile.builder .' 
+                    sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp:$(git rev-parse HEAD) bash -c "cd /work; lein  uberjar"  '
+                                         }    
+                   }
+           }
         stage('deploy') { 
             
             steps {
