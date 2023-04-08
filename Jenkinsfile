@@ -33,7 +33,7 @@ pipeline {
             steps {
                  echo 'Starting to build the project builder docker image'
                 script{
-                      docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:670857e5187cc6737ddc80c2b1de44bf033f1351","-f ./Dockerfile.builder .")
+                      docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0","-f ./Dockerfile.builder .")
                      
                                  sh """
                                     lein uberjar
