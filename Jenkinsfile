@@ -1,3 +1,7 @@
+def builderImage
+def productionImage
+def ACCOUNT_REGISTRY_PREFIX
+def GIT_COMMIT_HASH
 pipeline {
     agent any 
     environment {
@@ -6,6 +10,7 @@ pipeline {
     AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
     AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
     DOCKER_REGISTRY = '903678904895.dkr.ecr.us-east-1.amazonaws.com'
+    ACCOUNT_REGISTRY_PREFIX = '903678904895.dkr.ecr.us-east-1.amazonaws.com'
   }
     stages {
         stage('Check source code and login to registry') { 
@@ -28,7 +33,7 @@ pipeline {
             steps {
                  echo 'Starting to build the project builder docker image'
                 script{
-                      builderImage = docker build("$DOCKER_REGISTRY/webapp-builder:670857e5187cc6737ddc80c2b1de44bf033f1351","-f ./Dockerfile.builder .")
+                    builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/webapp-builder:670857e5187cc6737ddc80c2b1de44bf033f1351","-f ./Dockerfile.builder .")
                       builderImage.push()
                       builderImage.push("${env.GIT_BRANCH}")
                       builderImage.inside('-v $WORKSPACE: /output -u root'){
