@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('build image'){
             steps{
-           sh" docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0 -f Dockerfile.builder . "
+           sh" docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.1 -f Dockerfile.builder . "
         }
         }
         stage('Check source code and login to registry then push image to aws ECR') { 
@@ -26,20 +26,18 @@ pipeline {
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0
+                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.1
                                       """
                                                                                                                                        }
                               }
                   }
         }                           
         
-        stage('Make a builder image'){
+        stage('running image inside a countainer'){
             
             steps {
-                 echo 'Starting to build the project builder docker image'
-                script{
-                      docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0","-f ./Dockerfile.builder .") 
-                      }
+                      echo 'Starting to build the project builder docker countainer'
+                      sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.1 bash -c "cd /work; lein  uberjar"'
                       sh "lein uberjar"
             }                
         }
