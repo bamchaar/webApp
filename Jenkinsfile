@@ -26,7 +26,7 @@ pipeline {
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder
+                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0
                                       """
                                                                                                                                        }
                               }
