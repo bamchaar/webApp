@@ -13,6 +13,9 @@ pipeline {
     ACCOUNT_REGISTRY_PREFIX = '903678904895.dkr.ecr.us-east-1.amazonaws.com'
   }
     stages {
+        stage(build image then push it to aws ECR){
+            docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0 -f Dockerfile.builder . build 
+        }
         stage('Check source code and login to registry') { 
             steps {
                         script {
@@ -21,7 +24,7 @@ pipeline {
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        docker pull $DOCKER_REGISTRY/webapp-builder:670857e5187cc6737ddc80c2b1de44bf033f1351
+                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder
                                       """
                                                                                                                                        }
                               }
@@ -33,13 +36,9 @@ pipeline {
             steps {
                  echo 'Starting to build the project builder docker image'
                 script{
-                      docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0","-f ./Dockerfile.builder .")
-                     
-                                 sh """
-                                    lein uberjar
-                                 """
-                   
+                      docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0","-f ./Dockerfile.builder .") 
                       }
+                      sh "lein uberjar"
             }                
         }
         stage('Unit tests'){
