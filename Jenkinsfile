@@ -19,13 +19,7 @@ pipeline {
                                                                                                                      }
                                  }
                     }
-                                                           }
-        stage('deploy') { 
-            
-            steps {
-                sh "mvn package"
-            }
-        }
+                                                           
         
         stage('Docker Login'){
             
