@@ -4,6 +4,7 @@ def ACCOUNT_REGISTRY_PREFIX
 def GIT_COMMIT_HASH
 pipeline {
     agent any 
+    tools{"docker"}
     environment {
     AWS_REGION = 'us-east-1'
     AWS_ACCOUNT_ID = '903678904895'
@@ -13,20 +14,7 @@ pipeline {
     ACCOUNT_REGISTRY_PREFIX = '903678904895.dkr.ecr.us-east-1.amazonaws.com'
   }
     stages {
-        stage('Install Docker') {
-            steps {
-                script{
-                     withCredentials([string(credentialsId: 'pass', variable: 'passwordRoot'),
-                                                  string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        sh ' su'
-                         sh '${passwordRoot}'
-                        sh 'curl -fsSL https://get.docker.com -o get-docker.sh'
-                        sh 'sh get-docker.sh'
-                        sh 'usermod -aG docker jenkins'
-                     }
-                }
-            }
-        }
+       
         stage('build image'){
             steps{
            sh" docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.2 -f Dockerfile.builder . "
