@@ -28,8 +28,9 @@ pipeline {
                 }
         }
         }
-        stage('Check source code and login to registry then push image to aws ECR') { 
+        stage('push image to aws ECR') { 
             steps {
+                        echo'Check source code and login to registry then push image to aws ECR'
                         script {
                             
                                  withCredentials([string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
@@ -51,7 +52,6 @@ pipeline {
       
                       docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3","-f Dockerfile.builder .").inside('-v $WORKSPACE: /output -u root'){
                                  sh """ 
-                                    mv project.clj /output
                                     cd /output
                                     lein test
                                  """
