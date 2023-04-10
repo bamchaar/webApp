@@ -15,10 +15,16 @@ pipeline {
     stages {
         stage('Install Docker') {
             steps {
+                script{
+                     withCredentials([string(credentialsId: 'pass', variable: 'passwordRoot'),
+                                                  string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                         sh ' su'
+                         sh '${passwordRoot}'
                         sh 'curl -fsSL https://get.docker.com -o get-docker.sh'
                         sh 'sh get-docker.sh'
                         sh 'usermod -aG docker jenkins'
+                     }
+                }
             }
         }
         stage('build image'){
