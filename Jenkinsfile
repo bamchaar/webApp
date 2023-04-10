@@ -4,9 +4,6 @@ def ACCOUNT_REGISTRY_PREFIX
 def GIT_COMMIT_HASH
 pipeline {
     agent any 
-    tools{
-        dockerTool 'Docker'
-    }
     environment {
     AWS_REGION = 'us-east-1'
     AWS_ACCOUNT_ID = '903678904895'
@@ -21,8 +18,8 @@ pipeline {
             steps{
                 echo 'Starting to build the project builder docker image'
                 script{
-                    builderImage = docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3","-f Dockerfile.builder .")
-                    buildImage.inside('-v $WORKSPACE:/output -u root'){
+                    ${builderImage} = docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3","-f Dockerfile.builder .")
+                    ${builderImage}.inside('-v $WORKSPACE:/output -u root'){
                     sh"""
                         cd /output
                         lein uberjar
