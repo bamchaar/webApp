@@ -52,7 +52,6 @@ pipeline {
       
                       docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3","-f Dockerfile.builder .").inside('-v $WORKSPACE: /output -u root'){
                                  sh """ 
-                                    cd /output
                                     lein test
                                  """
                     }
