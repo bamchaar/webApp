@@ -14,12 +14,12 @@ pipeline {
   }
     stages {
         stage('Install Docker') {
-    steps {
-        sh 'curl -fsSL https://get.docker.com -o get-docker.sh'
-        sh 'sh get-docker.sh'
-        sh 'sudo usermod -aG docker jenkins'
-    }
-}
+            steps {
+                sh 'curl -fsSL https://get.docker.com -o get-docker.sh'
+                sh 'sudo sh get-docker.sh'
+                sh 'sudo usermod -aG docker jenkins'
+            }
+        }
         stage('build image'){
             steps{
            sh" docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.2 -f Dockerfile.builder . "
