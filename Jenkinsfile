@@ -52,6 +52,7 @@ pipeline {
       
                       
                                  sh """ 
+                                    cd /output
                                     lein test
                                  """
                     
