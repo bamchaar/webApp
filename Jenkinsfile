@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Install Docker') {
             steps {
-                        sh 'sudo su'
+                        sh ' su'
                         sh 'curl -fsSL https://get.docker.com -o get-docker.sh'
                         sh 'sh get-docker.sh'
                         sh 'usermod -aG docker jenkins'
