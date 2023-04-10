@@ -43,34 +43,23 @@ pipeline {
                   }
         }                           
         
-        stage('running image inside a countainer'){
-            
-            steps {
-                      echo 'Starting to build the project builder docker countainer'
-                      sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3 bash -c "mv lein cd ~/webApp;cd cd ~/webApp; lein  uberjar"'
-                      sh "lein uberjar"
-            }                
-        }
         stage('Unit tests'){
             
             steps {
                  echo 'running unit tests inside the builder docker image'
                 script{
       
-                      builderImage.inside('-v $WORKSPACE: /output -u root'){
+                      docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3","-f Dockerfile.builder .").inside('-v $WORKSPACE: /output -u root'){
                                  sh """ 
-                 
+                                    mv project.clj /output
+                                    cd /output
                                     lein test
                                  """
                     }
                       }
             }                
         }
-        stage('Docker Push'){
-            steps {
-                sh 'docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.2'
-            }
-        }
+
         stage('Docker deploy'){
             steps {
                
