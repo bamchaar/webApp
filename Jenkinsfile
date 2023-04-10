@@ -19,7 +19,16 @@ pipeline {
        
         stage('build image'){
             steps{
-           sh" docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3 -f Dockerfile.builder . "
+                echo 'Starting to build the project builder docker image'
+                script{
+                    builderImage = docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3","-f Dockerfile.builder .")
+                    buildImage.inside('-v $WORKSPACE:/output -u root'){
+                    sh"""
+                        cd /output
+                        lein uberjar
+                    """
+                    }
+                }
         }
         }
         stage('Check source code and login to registry then push image to aws ECR') { 
