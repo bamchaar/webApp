@@ -5,7 +5,7 @@ def GIT_COMMIT_HASH
 pipeline {
     agent any 
     tools{
-        docker '19.03.13'
+        dockerTool 'Docker'
     }
     environment {
     AWS_REGION = 'us-east-1'
