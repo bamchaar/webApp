@@ -41,7 +41,7 @@ pipeline {
             
             steps {
                       echo 'Starting to build the project builder docker countainer'
-                      sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3 bash -c "cd /output; lein  uberjar"'
+                      sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3 bash -c "mv lein /usr/local/bin/;cd /usr/local/bin/; lein  uberjar"'
                       sh "lein uberjar"
             }                
         }
