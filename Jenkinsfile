@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('build image'){
             steps{
-           sh" docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.1 -f Dockerfile.builder . "
+           sh" docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.2 -f Dockerfile.builder . "
         }
         }
         stage('Check source code and login to registry then push image to aws ECR') { 
@@ -26,7 +26,7 @@ pipeline {
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.1
+                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.2
                                       """
                                                                                                                                        }
                               }
@@ -37,7 +37,7 @@ pipeline {
             
             steps {
                       echo 'Starting to build the project builder docker countainer'
-                      sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.1 bash -c "cd /work; lein  uberjar"'
+                      sh 'docker run --rm -v "$PWD:/work" 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.2 bash -c "cd /work; lein  uberjar"'
                       sh "lein uberjar"
             }                
         }
@@ -58,7 +58,7 @@ pipeline {
         }
         stage('Docker Push'){
             steps {
-                sh 'docker push tcdmv/hello:1.0.0-${BUILD_NUMBER}'
+                sh 'docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.2'
             }
         }
         stage('Docker deploy'){
