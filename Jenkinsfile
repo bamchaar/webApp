@@ -18,7 +18,7 @@ pipeline {
             steps{
                 echo 'Starting to build the project builder docker image'
                 script{
-                   docker.build("docker push tcdmv/webapp:1.0.3","-f Dockerfile.builder .").inside('-v $WORKSPACE:/output -u root'){
+                   docker.build("tcdmv/webapp:1.0.3","-f Dockerfile.builder .").inside('-v $WORKSPACE:/output -u root'){
                     sh"""
                         mv project.clj /output
                         cd /output
