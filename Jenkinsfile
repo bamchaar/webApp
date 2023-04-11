@@ -23,7 +23,7 @@ pipeline {
                         lein uberjar
                     """
                         echo'pushing image to dockerhub'
-                        sh'docker pull tcdmv/webapp:1.0.3'
+                        sh'docker push tcdmv/webapp:1.0.3'
           }
         }
         }
