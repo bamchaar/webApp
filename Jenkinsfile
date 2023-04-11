@@ -16,14 +16,14 @@ pipeline {
                 echo 'Starting to build the project builder docker image'
                 script {
                         withCredentials([usernamePassword(credentialsId: 'TcDmvDockerKey', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        def dockerImage = docker.build("tcdmv/webapp:1.0.3","-f Dockerfile.builder .").inside('-v $WORKSPACE:/output -u root'){
+                        docker.build("tcdmv/webapp:1.0.3","-f Dockerfile.builder .").inside('-v $WORKSPACE:/output -u root'){
                     sh"""
                         mv project.clj /output
                         cd /output
                         lein uberjar
                     """
                         echo'pushing image to dockerhub'
-                        dockerImage.push()
+                        sh'docker pull tcdmv/webapp:1.0.3'
           }
         }
         }
