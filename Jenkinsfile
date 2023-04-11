@@ -28,7 +28,7 @@ pipeline {
                 }
         }
         }
-        stage('push image to aws ECR') { 
+        stage('push image to DockerHub') { 
             steps {
                         echo'Check source code and login to registry then push image to aws ECR'
                         sh'docker push tcdmv/webapp:1.0.3'
