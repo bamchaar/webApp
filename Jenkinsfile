@@ -61,12 +61,12 @@ pipeline {
         }
 
         stage('Docker deploy'){
-            steps {
                   environment {
                         SSH_KEY = credentials('ec2-user-server') // ID of the Jenkins credentials containing the private key
                         SSH_USER = 'ec2-user'
                         SSH_HOST = 'ec2-3-80-32-122.compute-1.amazonaws.com'
          }
+                steps {
                 script{
                     def dockerCmd = 'docker run -p 3000:3000 -d 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.4'
                     sshagent(["${SSH_KEY}"]) {
