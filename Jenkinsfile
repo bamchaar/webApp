@@ -70,7 +70,7 @@ pipeline {
                 steps {
                 script{
                     def dockerCmd = 'docker run -p 3000:3000 -d 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.5'
-                    sshagent([credentials('aws-ec2-access')]) {
+                    sshagent(['aws-ec2-access']) {
                         sh" ssh -o StrictHostKeyChecking=no -l ${SSH_USER} ${SSH_HOST} ${dockerCmd}"
                   }
                                                                                  
