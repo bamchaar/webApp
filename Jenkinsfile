@@ -18,10 +18,9 @@ pipeline {
             steps{
                 echo 'Starting to build the project builder docker image'
                 script{
-                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.5","-f Dockerfile.builder .").inside('-v $WORKSPACE:/output -u root'){
+                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.6","-f Dockerfile.builder .").inside('-v $WORKSPACE: . -u root'){
                     sh"""
-                        mv project.clj /output
-                        cd /output
+                        mv project.clj 
                         lein uberjar
                     """
                     }
@@ -37,7 +36,7 @@ pipeline {
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.5
+                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.6
                                       """
                                                                                                                                        }
                               }
@@ -50,7 +49,7 @@ pipeline {
             steps {
                  echo 'running unit tests inside the builder docker image'
                   script{
-                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.5","-f Dockerfile.builder .").inside('-v $WORKSPACE:/output -u root'){
+                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.6","-f Dockerfile.builder .").inside('-v $WORKSPACE:/output -u root'){
                     sh"""
                         cd /output
                         
@@ -72,7 +71,6 @@ pipeline {
                     withCredentials([string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
-                                        cd /output
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
                                         docker pull 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.5
                                       """
