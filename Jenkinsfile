@@ -20,6 +20,7 @@ pipeline {
                 script{
                    docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.6","-f Dockerfile.builder .").inside('-v $WORKSPACE -u root'){
                     sh"""
+                        mv project.clj /usr/bin/lein
                         lein uberjar
                     """
                     }
