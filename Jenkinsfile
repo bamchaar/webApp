@@ -65,13 +65,13 @@ pipeline {
                   environment {
                         SSH_KEY = credentials('aws-ec2-access') // ID of the Jenkins credentials containing the private key
                         SSH_USER = 'ec2-user'
-                        SSH_HOST = 'ec2-3-80-32-122.compute-1.amazonaws.com'
+                        SSH_HOST = '3.90.58.229'
          }
                 steps {
                 script{
                     def dockerCmd = 'docker run -p 3000:3000 -d 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.5'
                     sshagent(['aws-ec2-access']) {
-                        sh" ssh -o StrictHostKeyChecking=no -l ${SSH_USER} ${SSH_HOST} ${dockerCmd}"
+                        sh" ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} ${dockerCmd}"
                   }
                                                                                  
                 }
