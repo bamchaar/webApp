@@ -69,14 +69,10 @@ pipeline {
                 steps {
                 script{
                     def dockerCmd = 'docker run -p 3000:3000 -d 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.4'
-                     withCredentials([string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
-                                                  string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
-                                      sh """
-                                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        ssh -o StrictHostKeyChecking=no -l ${SSH_USER} ${SSH_HOST} ${dockerCmd}
-                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.4
-                                      """
-                     }                                                                                        
+                    sshagent([credentials('ec2-user-server')]) {
+                        sh" ssh -o StrictHostKeyChecking=no -l ${SSH_USER} ${SSH_HOST} ${dockerCmd}"
+                  }
+                                                                                 
                 }
             }
         }
