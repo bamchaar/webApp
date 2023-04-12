@@ -76,7 +76,7 @@ pipeline {
                                         ssh -o StrictHostKeyChecking=no -l ${SSH_USER} ${SSH_HOST} ${dockerCmd}
                                         docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.4
                                       """
-                                                                                                                                       
+                     }                                                                                        
                 }
             }
         }
