@@ -28,24 +28,22 @@ pipeline {
                 }
         }
         }
-        stage('push image to aws ECR') { 
+                stage('push image to aws ECR') { 
             steps {
-                        echo'Check source code and login to registry then push image to aws ECR'
+                                echo'Check source code and login to registry then push image to aws ECR'
                         script {
                             
-                                 withCredentials([[
-        credentialsId: 'aws-ecr-creds',
-        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-    ]]) {
+                                 withCredentials([string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                                                  string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.5
+                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3
                                       """
                                                                                                                                        }
                               }
                   }
         }                           
+     
         
         stage('Unit tests'){
             
