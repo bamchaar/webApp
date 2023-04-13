@@ -77,7 +77,7 @@ pipeline {
                      sshagent(['3.90.58.229']) {
                         
                         sh""" 
-                           ssh -o 'StrictHostKeyChecking=no' ec2-user@3.90.58.229 docker run -p 3000:3000 -d https://$aws-access-key-id:$aws-secret-access-key@90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.0 
+                           ssh -o 'StrictHostKeyChecking=no' ec2-user@3.90.58.229 docker run -p 3000:3000 -d -e AWS_ACCESS_KEY_ID='aws-access-key-id' -e AWS_SECRET_ACCESS_KEY='aws-secret-access-key' 90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.0 
                            """
                      }
                       }                                                              
