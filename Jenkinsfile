@@ -65,6 +65,11 @@ pipeline {
          }
                 steps {
                 script{
+                   sshagent(['3.90.58.229']) {
+                        
+                        sh" ssh -o 'StrictHostKeyChecking=no' ec2-user@3.90.58.229 docker run -p 3000:3000 -d 90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.0"
+              
+                      }
                     withCredentials([string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
@@ -72,11 +77,7 @@ pipeline {
                                         docker pull 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.0
                                       """
                                                                                                                                        }
-                    sshagent(['3.90.58.229']) {
-                        
-                        sh" ssh -o 'StrictHostKeyChecking=no' ec2-user@3.90.58.229 docker run -p 3000:3000 -d 90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.0"
-              
-                      }
+
                                                                                  
                 }
             }
