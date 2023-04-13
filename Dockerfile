@@ -1,9 +1,13 @@
-FROM openjdk:17-jdk-slim
-MAINTAINER Abdel<bamchaar@gmail.com>
+FROM clojure:openjdk-8-lein
 
-ADD target/uberjar/example-webapp.jar /example-webapp/app.jar
+WORKDIR /app
 
+COPY project.clj .
+RUN lein deps
+
+COPY . .
+
+RUN lein uberjar
 EXPOSE 3000
-
-CMD ["java", "-jar", "/example-webapp/app.jar"]
+CMD ["java", "-jar", "target/my-project.jar"]
 
