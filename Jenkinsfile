@@ -19,7 +19,7 @@ pipeline {
                 echo 'Starting to build the project builder docker image'
                 script{
                     sh"""
-                      docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0 ./webApp/Dockerfile
+                      docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0 -f Dockerfile .
                     """
                 }
         }
