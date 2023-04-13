@@ -18,10 +18,9 @@ pipeline {
             steps{
                 echo 'Starting to build the project builder docker image'
                 script{
-                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.6","-f Dockerfile.builder .").inside('-v $WORKSPACE -u root'){
+                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.6","-f Dockerfile .").inside('-v $WORKSPACE -u root'){
                     sh"""
-                        mv project.clj /usr/bin/lein
-                        lein uberjar
+                      docker build Dockerfile
                     """
                     }
                 }
@@ -36,7 +35,7 @@ pipeline {
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.6
+                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.0
                                       """
                                                                                                                                        }
                               }
@@ -49,7 +48,7 @@ pipeline {
             steps {
                  echo 'running unit tests inside the builder docker image'
                   script{
-                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.6","-f Dockerfile.builder .").inside('-v $WORKSPACE -u root'){
+                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0","-f Dockerfile .").inside('-v $WORKSPACE -u root'){
                     sh"""
       
                         lein test
@@ -71,12 +70,12 @@ pipeline {
                                                   string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                                       sh """
                                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                                        docker pull 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.5
+                                        docker pull 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.0
                                       """
                                                                                                                                        }
                     sshagent(['3.90.58.229']) {
                         
-                        sh" ssh -o 'StrictHostKeyChecking=no' ec2-user@3.90.58.229 docker run -p 3000:3000 -d 90360489.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.5"
+                        sh" ssh -o 'StrictHostKeyChecking=no' ec2-user@3.90.58.229 docker run -p 3000:3000 -d 90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.0"
               
                       }
                                                                                  
