@@ -49,7 +49,8 @@ pipeline {
                    docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0","-f Dockerfile .").inside('-v $WORKSPACE -u root'){
                     sh"""
       
-                        lein test
+                        docker run 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0 lein test
+
                     """
                     }
                 }
