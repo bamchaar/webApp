@@ -18,11 +18,9 @@ pipeline {
             steps{
                 echo 'Starting to build the project builder docker image'
                 script{
-                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.6","-f Dockerfile .").inside('-v $WORKSPACE -u root'){
                     sh"""
-                      docker build Dockerfile
+                      docker build -t 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.0 Dockerfile
                     """
-                    }
                 }
         }
         }
