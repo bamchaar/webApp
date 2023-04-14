@@ -79,7 +79,7 @@ pipeline {
                         
                         sh""" 
                            ssh -o 'StrictHostKeyChecking=no' ec2-user@54.91.252.44 docker images
-                           docker build -t production/webapp:1.0.3 -f Dockerfile .
+                           docker build -t production/webapp:1.0.4 -p 3000:3000 -f Dockerfile .
                            docker run -p 3000:3000 -d  production/webapp:1.0.3
                            """
                      
