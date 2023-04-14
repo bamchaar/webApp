@@ -54,7 +54,7 @@ pipeline {
                   script{
                    
                     sh"""
-                       cd webApp
+
                        lein test
 
                     """
