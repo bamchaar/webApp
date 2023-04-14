@@ -79,6 +79,7 @@ pipeline {
                         
                         sh""" 
                            ssh -o 'StrictHostKeyChecking=no' ec2-user@54.91.252.44 docker images
+                           docker run -p 3111:3000 -d  90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.3
                            """
                      
                   }
