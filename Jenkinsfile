@@ -53,11 +53,13 @@ pipeline {
                  echo 'running unit tests inside the builder docker image'
                   script{
                    
+                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3","-f Dockerfile .").inside('-v $WORKSPACE -u root'){
                     sh"""
-
-                       lein test
+      
+                        docker run 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3 lein test
 
                     """
+                    }
                     
                 }
             }                
@@ -65,7 +67,7 @@ pipeline {
 
         stage('Docker deploy'){
                   environment {
-                        SSH_KEY = credentials('3.90.58.229') // ID of the Jenkins credentials containing the private key
+                        SSH_KEY = credentials('54.91.252.44') // ID of the Jenkins credentials containing the private key
                         SSH_USER = 'ec2-user'
                         SSH_HOST = '3.90.58.229'
          }
@@ -76,8 +78,7 @@ pipeline {
                       sshagent(['3.90.58.229']) {
                         
                         sh""" 
-                           ssh -o 'StrictHostKeyChecking=no' ec2-user@3.90.58.229 
-                           docker run -p 3000:3000 -d  90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.3 
+                           ssh -o 'StrictHostKeyChecking=no' ec2-user@54.91.252.44 docker run -p 3000:3000 -d  90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.3 
                            """
                      
                   }
