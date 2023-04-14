@@ -52,13 +52,13 @@ pipeline {
             steps {
                  echo 'running unit tests inside the builder docker image'
                   script{
-                   docker.build("903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3","-f Dockerfile .").inside('-v $WORKSPACE -u root'){
+                   
                     sh"""
-      
-                        docker run 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp-builder:1.0.3 lein test
+                       cd webApp
+                       lein test
 
                     """
-                    }
+                    
                 }
             }                
         }
@@ -76,7 +76,8 @@ pipeline {
                       sshagent(['3.90.58.229']) {
                         
                         sh""" 
-                           ssh -o 'StrictHostKeyChecking=no' ec2-user@3.90.58.229 docker run -p 3000:3000 -d  90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.3 
+                           ssh -o 'StrictHostKeyChecking=no' ec2-user@3.90.58.229 
+                           docker run -p 3000:3000 -d  90360489.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.3 
                            """
                      
                   }
