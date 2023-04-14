@@ -30,12 +30,18 @@ pipeline {
                                 echo'Check source code and login to registry then push image to aws ECR'
                         script {
                             
-                                 withAWS(region: "${AWS_REGION}", credentials: 'bamAws') {
-                                 sh """
-                                         aws ecr get-login-password | docker login --username AWS --password-stdin docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com
-                                         docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.3
+                                 withCredentials([string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+
+                                                  string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
+
+                                      sh """
+
+                                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+
+                                        docker push 903678904895.dkr.ecr.us-east-1.amazonaws.com/webapp:1.0.3
+
                                       """
-                                                                                                                                       }
+                                 }
                               }
                   }
         }                           
