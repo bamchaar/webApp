@@ -50,7 +50,7 @@ pipeline {
                       sshagent(['54.172.237.1']) {
                           
                         sh " sudo scp docker-compose.yaml ec2-user@54.172.237.1:/"
-                        sh " sudo chown -R ~/docker-compose.yaml"
+                        sh " chown -R ~/docker-compose.yaml"
                         sh """ 
                            ssh -o StrictHostKeyChecking=no ec2-user@54.172.237.1 
                            docker-compose -f docker-compose.yaml up --detach
