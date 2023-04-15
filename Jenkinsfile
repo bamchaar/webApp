@@ -50,7 +50,7 @@ pipeline {
                         
                         sh""" 
                            ssh -o 'StrictHostKeyChecking=no' ec2-user@54.172.237.1 
-                           pwd
+                           ls /var/jenkins_home/workspace/my-webapp-pipeline
                             docker images
                            """
                      
