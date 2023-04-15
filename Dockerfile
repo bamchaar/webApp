@@ -1,6 +1,6 @@
 FROM clojure:openjdk-8-lein
 
-WORKDIR /app
+WORKDIR .
 
 COPY project.clj .
 RUN lein deps
@@ -8,6 +8,6 @@ RUN lein deps
 COPY . .
 
 RUN lein uberjar
-EXPOSE 3000
+EXPOSE 3080
 CMD ["java", "-jar", "target/my-project.jar"]
 
