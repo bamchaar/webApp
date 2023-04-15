@@ -55,6 +55,7 @@ pipeline {
                                 cd webApp
                                 ls
                                 pwd
+                                docker-compose build
                                 docker-compose  up -d
                            """
                      
