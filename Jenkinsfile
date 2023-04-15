@@ -51,7 +51,7 @@ pipeline {
                         sh""" 
                            ssh -o 'StrictHostKeyChecking=no' ec2-user@54.172.237.1 
                            docker build -t tcdmv/webapp:1.0.9 -f Dockerfile .
-                           docker run -d -p 3080:3080 tcdmv/webapp:1.0.9
+                           docker run -d -p 8080:8080 tcdmv/webapp:1.0.9
                            """
                      
                   }
