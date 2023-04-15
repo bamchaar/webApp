@@ -51,7 +51,6 @@ pipeline {
                          
                         sh """ 
                            ssh -o StrictHostKeyChecking=no ec2-user@54.174.151.95 
-                                git clone https://github.com/bamchaar/webApp.git
                                 cd webApp
                                 docker-compose up -d
                            """
