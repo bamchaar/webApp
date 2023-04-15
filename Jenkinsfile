@@ -5,7 +5,7 @@ def GIT_COMMIT_HASH
 pipeline {
     agent any 
     tools{
-    dockerComposeTool 'docker-compose'}
+    dockerTool 'docker-compose', '1.29.2'}
     environment {
     AWS_REGION = 'us-east-1'
     AWS_ACCOUNT_ID = '903678904895'
