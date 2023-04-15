@@ -45,13 +45,15 @@ pipeline {
                 steps {
                 script{
                  
- 
+                        sh'Deploying docker image to ec2'
+                    
                       sshagent(['54.172.237.1']) {
+                          sh "scp docker-compose.yaml ec2-user@54.172.237.1:/home/ec2-user"
                         
                         sh""" 
                            ssh -o 'StrictHostKeyChecking=no' ec2-user@54.172.237.1 
                            docker build -t tcdmv/webapp:1.0.9 -f Dockerfile .
-                           docker run -d -p 8081:8080 tcdmv/webapp:1.0.9
+                           docker-compose -f docker-compose.yaml up --detach
                            """
                      
                   }
