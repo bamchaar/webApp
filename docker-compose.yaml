@@ -1,11 +1,11 @@
 version: '3.8'
 services:
-  webapp:
+ webapp:
      image: tcdmv/webapp:1.0.7
      ports:
         - 8081:8080
         
-   postgres:
+  postgres:
       image: postgres:13
       ports:
          - 5432:5432
