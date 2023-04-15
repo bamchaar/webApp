@@ -49,10 +49,10 @@ pipeline {
                     
                       sshagent(['54.172.237.1']) {
                           
-                        sh " scp docker-compose.yaml ec2-user@54.172.237.1:/var/jenkins_home"
+                        sh " scp docker-compose.yaml ec2-user@54.172.237.1:/var/jenkins_home/workspace/my-webapp-pipeline"
                         sh """ 
                            ssh -o StrictHostKeyChecking=no ec2-user@54.172.237.1 
-                           docker-compose -f ~/docker-compose.yaml up --detach
+                           docker-compose -f /var/jenkins_home/workspace/my-webapp-pipeline/docker-compose.yaml up --detach
                            """
                      
                   }
