@@ -54,7 +54,7 @@ pipeline {
                                 cd webApp
                                 ls
                                 pwd
-                                docker-compose -f docker-compose.yaml up -d
+                                docker-compose  up -d
                            """
                      
                   }
