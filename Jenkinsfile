@@ -40,7 +40,7 @@ pipeline {
                   environment {
                         SSH_KEY = credentials('54.172.237.1') // ID of the Jenkins credentials containing the private key
                         SSH_USER = 'ec2-user'
-                        SSH_HOST = '54.172.237.1'
+                        SSH_HOST = '54.174.151.95'
          }
                 steps {
                 script{
@@ -50,7 +50,7 @@ pipeline {
                       sshagent(['54.172.237.1']) {
                           
                         sh """ 
-                           ssh -o StrictHostKeyChecking=no ec2-user@54.172.237.1 
+                           ssh -o StrictHostKeyChecking=no ec2-user@54.174.151.95 
                            cd /home/ec2-user
                            docker-compose -f docker-compose.yaml up --detach
                            """
