@@ -4,8 +4,10 @@ def ACCOUNT_REGISTRY_PREFIX
 def GIT_COMMIT_HASH
 pipeline {
     agent any 
-    tools{
-    dockerTool 'docker-compose', '1.29.2'}
+    tools {
+    // Define the Docker Compose tool
+    dockerTool 'docker-compose', '1.29.2'
+  }
     environment {
     AWS_REGION = 'us-east-1'
     AWS_ACCOUNT_ID = '903678904895'
