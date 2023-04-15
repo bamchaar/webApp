@@ -52,7 +52,7 @@ pipeline {
                         sh " scp docker-compose.yaml ec2-user@54.172.237.1:~"
                         sh """ 
                            ssh -o StrictHostKeyChecking=no ec2-user@54.172.237.1 
-                           docker-compose -f docker-compose.yaml up --detach
+                           docker-compose -f ~/docker-compose.yaml up --detach
                            """
                      
                   }
