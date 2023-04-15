@@ -52,7 +52,7 @@ pipeline {
                          
                         sh """ 
                            ssh -o StrictHostKeyChecking=no ec2-user@54.174.151.95 
-                                cd webApp
+                       
                                 ls
                                 pwd
                                 docker-compose build
