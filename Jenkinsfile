@@ -51,11 +51,11 @@ pipeline {
                          
                         sh """ 
                            ssh -o StrictHostKeyChecking=no ec2-user@54.174.151.95 
-                              sh 'git clone https://github.com/bamchaar/webApp.git'
-                              // Change directory to the repository
-                              sh 'cd webApp'
-                              // Run Docker Compose up
-                              sh 'docker-compose up -d'
+                                git clone https://github.com/bamchaar/webApp.git
+                                // Change directory to the repository
+                                cd webApp
+                                // Run Docker Compose up
+                                docker-compose up -d
                            """
                      
                   }
