@@ -52,6 +52,7 @@ pipeline {
                         sh """ 
                            ssh -o StrictHostKeyChecking=no ec2-user@54.174.151.95 
                                 cd webApp
+                                pwd
                                 docker-compose -f docker-compose.yaml up -d
                            """
                      
