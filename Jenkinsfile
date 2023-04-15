@@ -38,9 +38,9 @@ pipeline {
 
         stage('Docker deploy'){
                   environment {
-                        SSH_KEY = credentials('54.91.252.44') // ID of the Jenkins credentials containing the private key
+                        SSH_KEY = credentials('54.172.237.1') // ID of the Jenkins credentials containing the private key
                         SSH_USER = 'ec2-user'
-                        SSH_HOST = '3.90.58.229'
+                        SSH_HOST = '54.172.237.1'
          }
                 steps {
                 script{
@@ -50,7 +50,8 @@ pipeline {
                         
                         sh""" 
                            ssh -o 'StrictHostKeyChecking=no' ec2-user@54.172.237.1 
-                           docker build -t tcdmv/webapp:1.0.8 -f Dockerfile .
+                           docker build -t tcdmv/webapp:1.0.8 - f Dockerfile .
+                           docker push tcdmv/webapp:1.0.8
                            docker run -d -p 3080:3080 tcdmv/webapp:1.0.8
                            """
                      
