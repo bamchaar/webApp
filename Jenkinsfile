@@ -51,6 +51,7 @@ pipeline {
                           
                         sh """ 
                            ssh -o StrictHostKeyChecking=no ec2-user@54.174.151.95 
+                           pwd
                            docker-compose  docker-compose.yaml up --detach
                            """
                      
