@@ -1,11 +1,12 @@
 FROM clojure:openjdk-8-lein
 
-WORKDIR .
+WORKDIR /usr/src/app
 
-COPY project.clj .
+
+COPY project.clj /usr/src/app
 RUN lein deps
 
-COPY . .
+COPY . /usr/src/app
 
 RUN lein uberjar
 EXPOSE 3080
