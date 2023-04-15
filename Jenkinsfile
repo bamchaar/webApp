@@ -48,11 +48,14 @@ pipeline {
                         echo'Deploying docker image to ec2'
                     
                       sshagent(['54.172.237.1']) {
-                          sh " scp docker-compose.yaml ec2-usr@54.174.151.95:/var/jenkins_home/workspace/my-webapp-pipeline"
+                         
                         sh """ 
                            ssh -o StrictHostKeyChecking=no ec2-user@54.174.151.95 
-                           pwd
-                           docker-compose  -f docker-compose.yaml up --detach
+                              sh 'git clone https://github.com/bamchaar/webApp.git'
+                              // Change directory to the repository
+                              sh 'cd webApp'
+                              // Run Docker Compose up
+                              sh 'docker-compose up -d'
                            """
                      
                   }
