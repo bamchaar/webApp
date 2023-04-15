@@ -9,6 +9,6 @@ RUN lein deps
 COPY . /usr/src/app
 
 RUN lein uberjar
-EXPOSE 3080
+EXPOSE 8080
 CMD ["java", "-jar", "target/my-project.jar"]
 
