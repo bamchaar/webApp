@@ -11,6 +11,7 @@ pipeline {
     AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
     DOCKER_REGISTRY = '903678904895.dkr.ecr.us-east-1.amazonaws.com'
     ACCOUNT_REGISTRY_PREFIX = '903678904895.dkr.ecr.us-east-1.amazonaws.com'
+    PATH = "$PATH:/usr/local/bin"
   }
     stages {
        
